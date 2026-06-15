@@ -9,7 +9,7 @@
 注意：
     这些转换依赖外部命令行工具，在 Windows 环境下通常不可用。
     当前版本保留代码结构但管线默认跳过音频渲染阶段。
-    未来可扩展为使用内置合成器或 Docker 化的 fluidsynth 方案。
+    未来可扩展为使用内置合成器方案。
 """
 
 from __future__ import annotations
