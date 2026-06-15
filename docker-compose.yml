@@ -1,0 +1,45 @@
+version: "3.9"
+
+services:
+  backend:
+    image: python:3.11-slim
+    container_name: easymusic-backend
+    working_dir: /app
+    environment:
+      - PYTHONPATH=/app/src
+      - OPENAI_API_KEY=${OPENAI_API_KEY:-}
+      - OPENAI_BASE_URL=${OPENAI_BASE_URL:-}
+      - OPENAI_MODEL=${OPENAI_MODEL:-}
+    volumes:
+      - ./src/easymusic/backend/config.yaml:/app/src/easymusic/backend/config.yaml:ro
+      - ./src/easymusic/backend/data:/app/src/easymusic/backend/data
+      - ./sf2:/app/sf2:ro
+      - ./outputs:/app/outputs
+    ports:
+      - "8000"
+    command: >
+      bash -c "
+        apt-get update &&
+        apt-get install -y --no-install-recommends ffmpeg fluidsynth fluid-soundfont-gm &&
+        rm -rf /var/lib/apt/lists/* &&
+        pip install --no-cache-dir -r /app/requirements.txt -i https://pypi.tuna.tsinghua.edu.cn/simple &&
+        uvicorn easymusic.backend:app --host 0.0.0.0 --port 8000
+      "
+    networks:
+      - easymusic-network
+    restart: unless-stopped
+
+  frontend:
+    build:
+      context: ./src/easymusic/frontend
+      dockerfile: Dockerfile
+    container_name: easymusic-frontend
+    ports:
+      - "5173:80"
+    networks:
+      - easymusic-network
+    restart: unless-stopped
+
+networks:
+  easymusic-network:
+    driver: bridge

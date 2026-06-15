@@ -1,0 +1,33 @@
+[build-system]
+requires = ["setuptools>=68.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "easymusic"
+version = "0.2.0"
+description = "EasyMusic —— 基于 LLM 的 prompt-to-MIDI 音乐生成框架"
+requires-python = ">=3.10"
+license = {text = "MIT"}
+authors = [
+    {name = "EasyMusic Team"}
+]
+dependencies = [
+    "mido>=1.3.0",
+    "openai>=2.0.0",
+    "python-dotenv>=1.0.0",
+    "pydantic>=2.0.0",
+    "tqdm>=4.0.0",
+    "fastapi>=0.116.0",
+    "uvicorn>=0.35.0",
+    "PyYAML>=6.0.0",
+]
+
+[project.scripts]
+ecms = "easymusic.cli.main:main"
+ecms-server = "easymusic.backend:start_server"
+
+[project.urls]
+Homepage = "https://github.com/easymusic/easymusic"
+
+[tool.setuptools.packages.find]
+where = ["src"]

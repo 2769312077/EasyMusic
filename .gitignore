@@ -1,0 +1,14 @@
+__pycache__/
+*.pyc
+*.pyo
+.env
+outputs/
+*.egg-info/
+dist/
+build/
+.venv/
+venv/
+*.mid
+*.wav
+*.mp3
+src/easymusic/backend/data/
